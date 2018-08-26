@@ -77,11 +77,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        session = arView.session
 
         rendererDelegate = ARSceneRendererDelegate()
         
         arView = ARSCNView(frame: self.view.bounds, options: [:])
+        session = arView.session
         arView.session = session
         arView.delegate = rendererDelegate
 
