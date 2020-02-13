@@ -45,7 +45,7 @@ public class Plane : Geometry {
         super.init(buffers: [vertexBuffer], elements: [indexSource], vertexDescriptor: descriptor)
     }
     
-    init(width: Float, depth: Float, segments: Int, bufferAllocator: BufferAllocator) {
+    init(center: SIMD3<Float>, width: Float, depth: Float, segments: Int, bufferAllocator: BufferAllocator) {
         let vertexCount = (segments + 1) * (segments + 1)
         let indexCount = (2 * segments + 3) * segments
         
@@ -56,15 +56,15 @@ public class Plane : Geometry {
         let indices = indexBuffer.contents().assumingMemoryBound(to: UInt32.self)
         
         var i = 0
-        let y = Float(0)
-        var z = -depth / 2
+        let y = center.y
+        var z = center.z - depth / 2
         var t = Float(0)
         let deltaX = width / Float(segments)
         let deltaZ = depth / Float(segments)
         let deltaS = 1 / Float(segments)
         let deltaT = 1 / Float(segments)
         for _ in 0...segments {
-            var x = -width / 2
+            var x = center.x - width / 2
             var s = Float(0)
             for _ in 0...segments {
                 vertices[i].position = packed_float3(x, y, z)

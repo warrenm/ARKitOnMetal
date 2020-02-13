@@ -50,11 +50,8 @@ class ViewController: UIViewController, ARMTKViewDelegate {
     
     func renderer(_: SceneRenderer, didAddNode node: Node, forAnchor anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor {
-            let planeGeometry = planeAnchor.geometry
-            let nodeGeometry = Plane(vertices: planeGeometry.vertices,
-                                     texCoords: planeGeometry.textureCoordinates,
-                                     indices: planeGeometry.triangleIndices, bufferAllocator: bufferAllocator)
-            node.geometry = nodeGeometry
+            node.geometry = Plane(center: planeAnchor.center, width: planeAnchor.extent.x, depth: planeAnchor.extent.z, segments: 20, bufferAllocator: bufferAllocator)
+            
             let material = node.geometry?.elements.first?.material
             material?.diffuse.contents = UIColor.white
             material?.fillMode = .wireframe
@@ -67,11 +64,8 @@ class ViewController: UIViewController, ARMTKViewDelegate {
     
     func renderer(_: SceneRenderer, didUpdateNode node: Node, forAnchor anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor {
-            let planeGeometry = planeAnchor.geometry
-            node.geometry = Plane(vertices: planeGeometry.vertices,
-                                  texCoords: planeGeometry.textureCoordinates,
-                                  indices: planeGeometry.triangleIndices,
-                                  bufferAllocator: bufferAllocator)
+            node.geometry = Plane(center: planeAnchor.center, width: planeAnchor.extent.x, depth: planeAnchor.extent.z, segments: 20, bufferAllocator: bufferAllocator)
+            
             let material = node.geometry?.elements.first?.material
             material?.diffuse.contents = UIColor.white
             material?.fillMode = .wireframe
