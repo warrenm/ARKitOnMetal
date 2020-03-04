@@ -7,11 +7,11 @@ import simd
 public class HitTestResult {
     var node: Node
 
-    var localCoordinates: float3
+    var localCoordinates: SIMD3<Float>
 
-    var worldCoordinates: float3
+    var worldCoordinates: SIMD3<Float>
     
-    public init(node: Node, localCoordinates: float3) {
+    public init(node: Node, localCoordinates: SIMD3<Float>) {
         self.node = node
         self.localCoordinates = localCoordinates
         self.worldCoordinates = localCoordinates
@@ -295,7 +295,7 @@ public class SceneRenderer {
         endFrame()
     }
     
-    public func hitTest(_ point: float2) -> [HitTestResult] {
+    public func hitTest(_ point: SIMD2<Float>) -> [HitTestResult] {
         return []
     }
     
@@ -307,16 +307,16 @@ public class SceneRenderer {
         return []
     }
     
-    public func projectPoint(_ point: float3) -> float3 {
+    public func projectPoint(_ point: SIMD3<Float>) -> SIMD3<Float> {
         guard let frameCamera = currentFrame?.camera else { return point }
         let viewMatrix: matrix_float4x4 = frameCamera.viewMatrix(for: interfaceOrientation)
         let projectionMatrix: matrix_float4x4 = frameCamera.projectionMatrix(for: interfaceOrientation,
                                                                              viewportSize: drawableSize, zNear: 0.01, zFar: 100)
         let viewProjectionMatrix = projectionMatrix * viewMatrix
-        return (viewProjectionMatrix * float4(point, 1)).xyz
+        return (viewProjectionMatrix * SIMD4<Float>(point, 1)).xyz
     }
     
-    public func unprojectPoint(_ point: float3) -> float3 {
-        return float3(0)
+    public func unprojectPoint(_ point: SIMD3<Float>) -> SIMD3<Float> {
+        return SIMD3<Float>(repeating: 0)
     }
 }

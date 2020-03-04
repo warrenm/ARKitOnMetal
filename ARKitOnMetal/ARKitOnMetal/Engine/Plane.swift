@@ -11,7 +11,7 @@ public class Plane : Geometry {
         var texCoords: packed_float2
     }
 
-    init(vertices: [float3], texCoords: [float2], indices:[Int16], bufferAllocator: BufferAllocator) {
+    init(vertices: [SIMD3<Float>], texCoords: [SIMD2<Float>], indices:[Int16], bufferAllocator: BufferAllocator) {
         let vertexBuffer = bufferAllocator.makeBuffer(length: MemoryLayout<Vertex>.stride * vertices.count)
         let indexBuffer = bufferAllocator.makeBuffer(length: MemoryLayout<UInt16>.stride * indices.count)
 

@@ -57,7 +57,7 @@ class ViewController: UIViewController, ARMTKViewDelegate {
             material?.fillMode = .wireframe
         } else {
             let geometryNode = Node(geometry: modelGeometry)
-            geometryNode.transform.scale = float3(0.04)
+            geometryNode.transform.scale = SIMD3<Float>(repeating: 0.04)
             node.addChildNode(geometryNode)
         }
     }
@@ -83,8 +83,8 @@ class ViewController: UIViewController, ARMTKViewDelegate {
             trackingStatusLabel.numberOfLines = 2
             view.addSubview(trackingStatusLabel)
             view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-(20)-[label]-(20)-|", options: [], metrics: nil,
-                                                               views: ["label" : trackingStatusLabel]))
-            view.addConstraint(NSLayoutConstraint(item: trackingStatusLabel, attribute: .top, relatedBy: .equal,
+                                                               views: ["label" : trackingStatusLabel!]))
+            view.addConstraint(NSLayoutConstraint(item: trackingStatusLabel!, attribute: .top, relatedBy: .equal,
                                                   toItem: view.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: 20))
         }
         
@@ -105,6 +105,8 @@ class ViewController: UIViewController, ARMTKViewDelegate {
                 trackingStatusLabel.text = "Tracking is limited:\nInsufficient features"
             case .relocalizing:
                 trackingStatusLabel.text = "Tracking is limited:\nRelocalizing..."
+            @unknown default:
+                fatalError()
             }
         }
     }
