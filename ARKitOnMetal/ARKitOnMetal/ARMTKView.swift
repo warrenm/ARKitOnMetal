@@ -87,7 +87,13 @@ public class ARMTKView : MTKView, ARSessionDelegate {
     }
     
     public func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        renderer.interfaceOrientation = UIApplication.shared.statusBarOrientation
+        if #available(iOS 13.0, *) {
+            guard case renderer.interfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else {
+                return
+            }
+        } else {
+            renderer.interfaceOrientation = UIApplication.shared.statusBarOrientation
+        }
         
         renderer.currentFrame = frame
 

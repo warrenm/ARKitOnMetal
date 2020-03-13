@@ -9,14 +9,14 @@ public class PointCloud : Geometry {
         let vertexCount = pointCloud.points.count
         let indexCount = vertexCount
 
-        let vertexBuffer = bufferAllocator.makeBuffer(length: MemoryLayout<float4>.stride * vertexCount)
-        let vertices = vertexBuffer.contents().assumingMemoryBound(to: float4.self)
+        let vertexBuffer = bufferAllocator.makeBuffer(length: MemoryLayout<SIMD4<Float>>.stride * vertexCount)
+        let vertices = vertexBuffer.contents().assumingMemoryBound(to: SIMD4<Float>.self)
         
         let indexBuffer = bufferAllocator.makeBuffer(length: MemoryLayout<UInt32>.stride * indexCount)
         let indices = indexBuffer.contents().assumingMemoryBound(to: UInt32.self)
 
         for (index, position) in pointCloud.points.enumerated() {
-            vertices[index] = float4(position.x, position.y, position.z, 1)
+            vertices[index] = SIMD4<Float>(position.x, position.y, position.z, 1)
             indices[index] = UInt32(index)
         }
 
@@ -41,7 +41,7 @@ public class PointCloud : Geometry {
         
         descriptor.layouts[bufferIndex].stepFunction = .perVertex
         descriptor.layouts[bufferIndex].stepRate = 1
-        descriptor.layouts[bufferIndex].stride = MemoryLayout<float4>.stride
+        descriptor.layouts[bufferIndex].stride = MemoryLayout<SIMD4<Float>>.stride
 
         super.init(buffers: [vertexBuffer], elements: [element], vertexDescriptor: descriptor)
     }

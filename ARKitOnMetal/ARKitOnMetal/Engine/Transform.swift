@@ -26,7 +26,7 @@ public class Transform : CustomDebugStringConvertible {
     }
 
     /// The position of this node with respect to the origin of its local coordinate frame
-    public var translation: float3 = float3(0, 0, 0) {
+    public var translation: SIMD3<Float> = SIMD3<Float>(0, 0, 0) {
         didSet {
             matrixIsDirty = true
         }
@@ -44,14 +44,14 @@ public class Transform : CustomDebugStringConvertible {
     /// The order of components is (pitch, yaw, roll), each expressed in radians, and they are applied
     /// in the opposite order (roll, yaw, pitch) to determine the final rotation. Setting this property
     /// also updates the `orientation` property.
-    public var eulerAngles: float3 = float3(0, 0, 0) {
+    public var eulerAngles: SIMD3<Float> = SIMD3<Float>(0, 0, 0) {
         didSet {
             matrixIsDirty = true
         }
     }
     
     /// The scale of the node, expressed as a scale factor along each of the primary axes
-    public var scale: float3 = float3(1, 1, 1) {
+    public var scale: SIMD3<Float> = SIMD3<Float>(1, 1, 1) {
         didSet {
             matrixIsDirty = true
         }
@@ -87,7 +87,7 @@ public class Transform : CustomDebugStringConvertible {
         let rotZ = (_matrix[2] / scaleZ).xyz
         
         translation = trans
-        scale = float3(scaleX, scaleY, scaleZ)
+        scale = SIMD3<Float>(scaleX, scaleY, scaleZ)
         eulerAngles = float3x3([rotX, rotY, rotZ]).decomposeToEulerAngles()
     }
     
