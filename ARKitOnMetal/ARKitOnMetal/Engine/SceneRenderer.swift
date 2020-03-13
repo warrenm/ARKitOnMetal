@@ -317,6 +317,6 @@ public class SceneRenderer {
     }
     
     public func unprojectPoint(_ point: float3) -> float3 {
-        return float3(0)
+        return float3(repeating: 0.0)
     }
 }
